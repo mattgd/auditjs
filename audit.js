@@ -69,6 +69,9 @@ var semver = require('semver');
 // dictionary of vulnerable packages for xml-report
 var JUnit = { 'testsuite':[] };
 
+// dictionary of vulnerable packages for JSON report
+var JsonVulnerabilities = [];
+
 // Used to find installed packages and their dependencies
 var npm = require('npm');
 
@@ -109,6 +112,7 @@ var categories = config.get("categories");
 var whitelist = config.get("whitelist");
 var programPackage = config.get("programPackage");
 var output = config.get("output");
+var jsonOutput = config.get("jsonOutput");
 
 // Remember all vulnerabilities that were white-listed
 var whitelistedVulnerabilities = [];
@@ -321,6 +325,12 @@ function exitHandler(options, err) {
         JUnit = new XMLSerializer().serializeToString(dom);
         logger.info( `Wrote JUnit report to reports/${output}`);
         fs.writeFileSync('reports/' + output, `<?xml version="1.0" encoding="UTF-8"?>\n${JUnit}`);
+    }
+
+    if(config.get('json')) {
+        mkdirp('reports');
+        logger.info( `Wrote JSON report to reports/${jsonOutput}`);
+        fs.writeFileSync('reports/' + jsonOutput, JSON.stringify(JsonVulnerabilities));
     }
 
     if (config.get('suppressExitError')) {
@@ -569,6 +579,7 @@ function resultCallback(err, pkg) {
                         name: 'failure', text: `Details:\n
                         ${JSON.stringify(myVulnerabilities, null, 2).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')}\n\n`,
                         attrs: {message:`Found ${myVulnerabilities.length} vulnerabilities. See stacktrace for details.`}}]});
+                JsonVulnerabilities = JsonVulnerabilities.concat(myVulnerabilities);
         }
         else {
                 logger.verbose("------------------------------------------------------------");

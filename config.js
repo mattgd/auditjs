@@ -216,6 +216,7 @@ module.exports = {
            .option('--prod --production', 'Analyze production dependencies only')
            .option('-q --quiet', 'Supress console logging')
            .option('-r --report', 'Create JUnit reports in reports/ directory')
+           .option('-j --json', 'Create JSON reports in reports/ directory')
            .option('-v --verbose', 'Print all vulnerabilities')
            .option('-w --whitelist <file>', 'Whitelist of vulnerabilities that should not break the build,\n\t\t\t\t e.g. XSS vulnerabilities for an app with no possbile input for XSS.\n\t\t\t\t See Example test_data/audit_package_whitelist.json.')
            .option('-l --level <level>', 'Logging level. Possible options: ' + LOGGER_LEVELS)
@@ -244,6 +245,7 @@ module.exports = {
     }
     programPackage = program['package'] ? path.basename(program['package']): 'scan_node_modules.json';
     output = `${programPackage.toString().split('.json').slice(0, -1)}.xml`;
+    jsonOutput = `${programPackage.toString().split('.json').slice(0, -1)}.json`;
     pm = program['bower'] ? 'bower' : 'npm';
 
     if (program['dependencyTypes'] && program['production']) {
@@ -345,6 +347,7 @@ module.exports = {
       case "pm": return pm;
       case "programPackage": return programPackage;
       case "output": return output;
+      case "jsonOutput": return jsonOutput;
       case "logger": return logger;
       case "categories": return categories;
       case "noNode": return program.noNode;
