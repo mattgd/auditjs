@@ -55,6 +55,7 @@ OSS Index and supply the username and "token". See below for more details.
   --prod --production          Analyze production dependencies only
   -q --quiet                   Supress console logging
   -r --report                  Create JUnit reports in reports/ directory
+  -j --json                    Create a JSON output in the reports/ directory
   -v --verbose                 Print all vulnerabilities
   -w --whitelist <file>        Whitelist of vulnerabilities that should not break the build,
            e.g. XSS vulnerabilities for an app with no possbile input for XSS.
