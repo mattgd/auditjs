@@ -245,7 +245,7 @@ module.exports = {
     }
     programPackage = program['package'] ? path.basename(program['package']): 'scan_node_modules.json';
     output = `${programPackage.toString().split('.json').slice(0, -1)}.xml`;
-    jsonOutput = `${programPackage.toString().split('.json').slice(0, -1)}.json`;
+    jsonOutput = programPackage.toString();
     pm = program['bower'] ? 'bower' : 'npm';
 
     if (program['dependencyTypes'] && program['production']) {

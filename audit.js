@@ -70,7 +70,7 @@ var semver = require('semver');
 var JUnit = { 'testsuite':[] };
 
 // dictionary of vulnerable packages for JSON report
-var JsonVulnerabilities = [];
+var jsonVulnerabilities = [];
 
 // Used to find installed packages and their dependencies
 var npm = require('npm');
@@ -330,7 +330,7 @@ function exitHandler(options, err) {
     if(config.get('json')) {
         mkdirp('reports');
         logger.info( `Wrote JSON report to reports/${jsonOutput}`);
-        fs.writeFileSync('reports/' + jsonOutput, JSON.stringify(JsonVulnerabilities));
+        fs.writeFileSync('reports/' + jsonOutput, JSON.stringify(jsonVulnerabilities));
     }
 
     if (config.get('suppressExitError')) {
@@ -579,7 +579,7 @@ function resultCallback(err, pkg) {
                         name: 'failure', text: `Details:\n
                         ${JSON.stringify(myVulnerabilities, null, 2).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')}\n\n`,
                         attrs: {message:`Found ${myVulnerabilities.length} vulnerabilities. See stacktrace for details.`}}]});
-                JsonVulnerabilities = JsonVulnerabilities.concat(myVulnerabilities);
+                jsonVulnerabilities = jsonVulnerabilities.concat(myVulnerabilities);
         }
         else {
                 logger.verbose("------------------------------------------------------------");
