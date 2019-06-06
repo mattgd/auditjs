@@ -28,6 +28,7 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *      SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+'use strict';
 
 /** Read through the package.json file in a specified directory. Build
  * a map of best case dependencies and indicate if there are any known
@@ -717,6 +718,8 @@ function getValidVulnerabilities(productRange, details, pkg, depPaths) {
         if(details != undefined) {
                 for(var i = 0; i < details.length; i++) {
                         var detail = details[i];
+                        detail.pkgName = pkg;
+                        detail.version = productRange;
                         detail.depPaths = depPaths;
 
                   		// Do we white-list this match?
